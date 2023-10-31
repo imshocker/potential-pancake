@@ -26,12 +26,21 @@ module.exports = (app) => {
 
     });
 
+    app.delete('/api/notes/:id', (req, res) => {
+        const db = JSON.parse(fs.readFileSync('db/db.json'))
+
+        let deleteNote = db.filter(item => item.id !== req.params.id);
+        fs.writeFileSync('db/db.json', JSON.stringify(deleteNote));
+        res.json(deleteNote);
+
+    })
+
     app.get('/notes', (req, res) => {
         res.sendFile(path.join(__dirname, '../public/notes.html'));
-      });
-    
+    });
 
-      app.get('*', (req, res) => {
+
+    app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../public/index.html'));
-      })
+    })
 };
