@@ -10,17 +10,17 @@ module.exports = (app) => {
     });
 
     app.post('/api/notes', (req, res) => {
-        const db = fs.readFileSync('db/db.json');
-        db = JSON.parse(db);
-        res.json(db);
+        const dbData = fs.readFileSync('db/db.json');
+        const db = JSON.parse(dbData);
+        res.json(dbData);
 
-        const newNote = {
+        const userNote = {
             title: req.body.title,
             text: req.body.text,
             id: uniqid(),
         };
 
-        db.push(newNote);
+        db.push(userNote);
         fs.writeFileSync('db/db.json', JSON.stringify(db));
         res.json(db);
 
